@@ -1,0 +1,24 @@
+{
+  "apps" : [{
+    "name"      : "website",
+    "script"    : "app.js",
+    "env": {
+      "COMMON_ENV_VAR": "true",
+      "NODE_ENV": "production"
+    },
+    "env_production": {
+      "NODE_ENV": "production"
+    }
+  }],
+
+  "deploy" : {
+    "production" : {
+      "user" : "root",
+      "host" : "121.42.140.111",
+      "ref"  : "origin/master",
+      "repo" : "git@github.com:dlj0906/node-api.git",
+      "path" : "/www/website/production",
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
+    }
+  }
+}

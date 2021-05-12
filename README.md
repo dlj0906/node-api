@@ -4,7 +4,7 @@
 # 目录结构
 ```
 │  app.js                              // 入口文件
-│  ecosystem.config.js                // pm2默认配置文件
+│  ecosystem.json                // pm2默认配置文件
 │  package.json                       // npm包管理所需模块及配置信息
 ├─db
 │      dbConfig.js                    // mysql基础配置
@@ -51,6 +51,6 @@ npm start
 
 ## 生产环境（后台启动服务）
 ```
-pm2 start ecosystem.config.js
+pm2 start ecosystem.json
 ```
 
