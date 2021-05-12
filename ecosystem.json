@@ -1,6 +1,6 @@
 {
   "apps" : [{
-    "name"      : "website",
+    "name"      : "api-admin",
     "script"    : "app.js",
     "env": {
       "COMMON_ENV_VAR": "true",
