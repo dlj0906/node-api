@@ -65,7 +65,7 @@ function login(req, res, next) {
 
         res.json({ 
         	code: CODE_SUCCESS, 
-        	msg: '登录成111功',
+        	msg: '登录成功',
         	data: { 
             token,
             userData
