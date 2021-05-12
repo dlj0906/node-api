@@ -53,7 +53,7 @@ function login(req, res, next) {
           { expiresIn: JWT_EXPIRED }
         )
 
-        let userData = {
+        let userInfo = {
           id: user[0].id,
           username: user[0].username,
           nickname: user[0].nickname,
@@ -68,7 +68,7 @@ function login(req, res, next) {
         	msg: '登录成功',
             result: {
             token,
-            userData
+                userInfo
           } 
         })
       }
