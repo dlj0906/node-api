@@ -35,18 +35,18 @@ function queryTaskList(req, res, next) {
 
     let query = `select d.id, d.title, d.content, d.status, d.is_major, d.gmt_create, d.gmt_expire from sys_task d`;
     querySql(query)
-    .then(data => {
-    	// console.log('任务列表查询===', data);
-      if (!data || data.length === 0) {
+    .then(result => {
+    	// console.log('任务列表查询===', result);
+      if (!result || result.length === 0) {
         res.json({ 
         	code: CODE_ERROR, 
         	msg: '暂无数据', 
-        	data: null 
+        	result: null
         })
       } else {
 
         // 计算数据总条数
-        let total = data.length; 
+        let total = result.length;
         // 分页条件 (跳过多少条)
         let n = (pageNo - 1) * pageSize;
         // 拼接分页的sql语句命令
@@ -59,7 +59,7 @@ function queryTaskList(req, res, next) {
               res.json({ 
                 code: CODE_SUCCESS, 
                 msg: '暂无数据', 
-                data: null 
+                result: null
               })
             } else {
               let query_2 = query_1 + ` limit ${n} , ${pageSize}`;
@@ -70,13 +70,13 @@ function queryTaskList(req, res, next) {
                   res.json({ 
                     code: CODE_SUCCESS, 
                     msg: '暂无数据', 
-                    data: null 
+                    result: null
                   })
                 } else {
                   res.json({ 
                     code: CODE_SUCCESS, 
                     msg: '查询数据成功', 
-                    data: {
+                    result: {
                       rows: result_2,
                       total: result_1.length,
                       pageNo: parseInt(pageNo),
@@ -96,13 +96,13 @@ function queryTaskList(req, res, next) {
               res.json({ 
                 code: CODE_SUCCESS, 
                 msg: '暂无数据', 
-                data: null 
+                result: null
               })
             } else {
               res.json({ 
                 code: CODE_SUCCESS, 
                 msg: '查询数据成功', 
-                data: {
+                result: {
                   rows: result_3,
                   total: total,
                   pageNo: parseInt(pageNo),
@@ -131,24 +131,24 @@ function addTask(req, res, next) {
         res.json({ 
           code: CODE_ERROR, 
           msg: '任务名称不能重复', 
-          data: null 
+          result: null
         })
       } else {
         const query = `insert into sys_task(title, content, status, is_major, gmt_expire) values('${title}', '${content}', 0, 0, '${gmt_expire}')`;
         querySql(query)
-        .then(data => {
-          // console.log('添加任务===', data);
-          if (!data || data.length === 0) {
+        .then(result => {
+          // console.log('添加任务===', result);
+          if (!result || result.length === 0) {
             res.json({ 
               code: CODE_ERROR, 
               msg: '添加数据失败', 
-              data: null 
+              result: null
             })
           } else {
             res.json({ 
               code: CODE_SUCCESS, 
               msg: '添加数据成功', 
-              data: null 
+              result: null
             })
           }
         })
@@ -175,24 +175,24 @@ function editTask(req, res, next) {
             res.json({ 
               code: CODE_ERROR, 
               msg: '任务名称不能重复', 
-              data: null 
+              result: null
             })
           } else {
             const query = `update sys_task set title='${title}', content='${content}', gmt_expire='${gmt_expire}' where id='${id}'`;
             querySql(query)
-            .then(data => {
-              // console.log('编辑任务===', data);
-              if (!data || data.length === 0) {
+            .then(result => {
+              // console.log('编辑任务===', result);
+              if (!result || result.length === 0) {
                 res.json({ 
                   code: CODE_ERROR, 
                   msg: '更新数据失败', 
-                  data: null 
+                  result: null
                 })
               } else {
                 res.json({ 
                   code: CODE_SUCCESS, 
                   msg: '更新数据成功', 
-                  data: null 
+                  result: null
                 })
               }
             })
@@ -202,7 +202,7 @@ function editTask(req, res, next) {
         res.json({ 
           code: CODE_ERROR, 
           msg: '参数错误或数据不存在', 
-          data: null 
+          result: null
         })
       }
     })
@@ -223,19 +223,19 @@ function updateTaskStatus(req, res, next) {
       if (task) {
         const query = `update sys_task set status='${status}' where id='${id}'`;
         querySql(query)
-        .then(data => {
-          // console.log('操作任务状态===', data);
-          if (!data || data.length === 0) {
+        .then(result => {
+          // console.log('操作任务状态===', result);
+          if (!result || result.length === 0) {
             res.json({ 
               code: CODE_ERROR, 
               msg: '操作数据失败', 
-              data: null 
+              result: null
             })
           } else {
             res.json({ 
               code: CODE_SUCCESS, 
               msg: '操作数据成功', 
-              data: null 
+              result: null
             })
           }
         })
@@ -243,7 +243,7 @@ function updateTaskStatus(req, res, next) {
         res.json({ 
           code: CODE_ERROR, 
           msg: '参数错误或数据不存在', 
-          data: null 
+          result: null
         })
       }
     })
@@ -264,19 +264,19 @@ function updateMark(req, res, next) {
       if (task) {
         const query = `update sys_task set is_major='${is_major}' where id='${id}'`;
         querySql(query)
-        .then(data => {
-          // console.log('点亮红星标记===', data);
-          if (!data || data.length === 0) {
+        .then(result => {
+          // console.log('点亮红星标记===', result);
+          if (!result || result.length === 0) {
             res.json({ 
               code: CODE_ERROR, 
               msg: '操作数据失败', 
-              data: null 
+              result: null
             })
           } else {
             res.json({ 
               code: CODE_SUCCESS, 
               msg: '操作数据成功', 
-              data: null 
+              result: null
             })
           }
         })
@@ -284,7 +284,7 @@ function updateMark(req, res, next) {
         res.json({ 
           code: CODE_ERROR, 
           msg: '参数错误或数据不存在', 
-          data: null 
+          result: null
         })
       }
     })
@@ -306,19 +306,19 @@ function deleteTask(req, res, next) {
         const query = `update sys_task set status='${status}' where id='${id}'`;
         // const query = `delete from sys_task where id='${id}'`;
         querySql(query)
-        .then(data => {
-          // console.log('删除任务===', data);
-          if (!data || data.length === 0) {
+        .then(result => {
+          // console.log('删除任务===', result);
+          if (!result || result.length === 0) {
             res.json({ 
               code: CODE_ERROR, 
               msg: '删除数据失败', 
-              data: null 
+              result: null
             })
           } else {
             res.json({ 
               code: CODE_SUCCESS, 
               msg: '删除数据成功', 
-              data: null 
+              result: null
             })
           }
         })
@@ -326,7 +326,7 @@ function deleteTask(req, res, next) {
         res.json({ 
           code: CODE_ERROR, 
           msg: '数据不存在', 
-          data: null 
+          result: null
         })
       }
     })

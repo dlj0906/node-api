@@ -39,8 +39,8 @@ function login(req, res, next) {
       if (!user || user.length === 0) {
         res.json({ 
         	code: CODE_ERROR, 
-        	msg: '用户名或密码错误', 
-        	data: null 
+        	msg: '用户名或密码错误',
+            result: null
         })
       } else {
         // 登录成功，签发一个token并返回给前端
@@ -66,7 +66,7 @@ function login(req, res, next) {
         res.json({ 
         	code: CODE_SUCCESS, 
         	msg: '登录成功',
-        	data: { 
+            result: {
             token,
             userData
           } 
@@ -86,13 +86,13 @@ function register(req, res, next) {
   } else {
     let { username, password } = req.body;
     findUser(username)
-  	.then(data => {
-  		// console.log('用户注册===', data);
-  		if (data) {
+  	.then(result => {
+  		// console.log('用户注册===', result);
+  		if (result) {
   			res.json({ 
 	      	code: CODE_ERROR, 
-	      	msg: '用户已存在', 
-	      	data: null 
+	      	msg: '用户已存在',
+                result: null
 	      })
   		} else {
 	    	password = md5(password);
@@ -103,8 +103,8 @@ function register(req, res, next) {
 		      if (!result || result.length === 0) {
 		        res.json({ 
 		        	code: CODE_ERROR, 
-		        	msg: '注册失败', 
-		        	data: null 
+		        	msg: '注册失败',
+                    result: null
 		        })
 		      } else {
             const queryUser = `select * from sys_user where username='${username}' and password='${password}'`;
@@ -128,8 +128,8 @@ function register(req, res, next) {
 
               res.json({ 
                 code: CODE_SUCCESS, 
-                msg: '注册成功', 
-                data: { 
+                msg: '注册成功',
+                  result: {
                   token,
                   userData
                 } 
@@ -153,9 +153,9 @@ function resetPwd(req, res, next) {
     let { username, oldPassword, newPassword } = req.body;
     oldPassword = md5(oldPassword);
     validateUser(username, oldPassword)
-    .then(data => {
-      console.log('校验用户名和密码===', data);
-      if (data) {
+    .then(result => {
+      console.log('校验用户名和密码===', result);
+      if (result) {
         if (newPassword) {
           newPassword = md5(newPassword);
 				  const query = `update sys_user set password='${newPassword}' where username='${username}'`;
@@ -165,29 +165,29 @@ function resetPwd(req, res, next) {
             if (!user || user.length === 0) {
               res.json({ 
                 code: CODE_ERROR, 
-                msg: '重置密码失败', 
-                data: null 
+                msg: '重置密码失败',
+                  result: null
               })
             } else {
               res.json({ 
                 code: CODE_SUCCESS, 
-                msg: '重置密码成功', 
-                data: null
+                msg: '重置密码成功',
+                  result: null
               })
             }
           })
         } else {
           res.json({ 
             code: CODE_ERROR, 
-            msg: '新密码不能为空', 
-            data: null 
+            msg: '新密码不能为空',
+              result: null
           })
         }
       } else {
         res.json({ 
           code: CODE_ERROR, 
-          msg: '用户名或旧密码错误', 
-          data: null 
+          msg: '用户名或旧密码错误',
+            result: null
         })
       }
     })
@@ -219,13 +219,13 @@ findAllUser = (req,res,next) => {
         pageSize = pageSize ? pageSize: 10
         let query = `SELECT * FROM sys_user limit ${pageNo - 1},${pageSize}`;
         querySql(query)
-            .then(data => {
-                console.log(data);
-                if (data && data.length) {
+            .then(result => {
+                console.log(result);
+                if (result && result.length) {
                     res.json({
                         code: CODE_SUCCESS,
                         msg: '操作成功',
-                        data
+                        result
                     })
                 }
             })
