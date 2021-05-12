@@ -18,7 +18,7 @@
       "ref"  : "origin/master",
       "repo" : "git@github.com:dlj0906/node-api.git",
       "path" : "/www/website/production",
-      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
+      "post-deploy" : "git pull && npm install && pm2 startOrRestart ecosystem.json --env production"
     }
   }
 }
