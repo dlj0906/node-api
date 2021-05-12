@@ -18,7 +18,6 @@ const {
 } = require('../utils/constant');
 const { decode } = require('../utils/user-jwt');
 
-
 // 登录
 function login(req, res, next) {
   const err = validationResult(req);
@@ -75,7 +74,6 @@ function login(req, res, next) {
     })
   }
 }
-
 
 // 注册
 function register(req, res, next) {
@@ -208,8 +206,35 @@ function findUser(username) {
   return queryOne(query);
 }
 
+// 查询所有用户
+findAllUser = (req,res,next) => {
+    const err = validationResult(req)
+    if (!err.isEmpty()) {
+        const [{ msg }] = err.errors;
+        next(boom.badRequest(msg));
+    } else {
+        let { pageSize, pageNo} = req.query
+        pageNo = pageNo ? pageNo: 1
+        pageSize = pageSize ? pageSize: 10
+        let query = `SELECT * FROM sys_user limit ${pageNo - 1},${pageSize}`;
+        querySql(query)
+            .then(data => {
+                console.log(data);
+                if (data && data.length) {
+                    res.json({
+                        code: CODE_SUCCESS,
+                        msg: '操作成功',
+                        data
+                    })
+                }
+            })
+
+    }
+}
+
 module.exports = {
   login,
   register,
-  resetPwd
+  resetPwd,
+    findAllUser
 }

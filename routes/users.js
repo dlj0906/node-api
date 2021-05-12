@@ -32,6 +32,9 @@ router.post('/register', vaildator, service.register);
 // 密码重置路由
 router.post('/resetPwd', resetPwdVaildator, service.resetPwd);
 
+// 查询所有用户
+router.get('/findAllUser', service.findAllUser);
+
 
 module.exports = router;
 
