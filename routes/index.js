@@ -1,7 +1,7 @@
 /**
- * 描述: 初始化路由信息，自定义全局异常处理
- * 作者: Jack Chen
- * 日期: 2020-06-19
+ * @Description: 初始化路由信息，自定义全局异常处理
+ * @author LongJiang Dong
+ * @date 2021/5/12
 */
 
 const express = require('express');

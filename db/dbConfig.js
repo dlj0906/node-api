@@ -1,7 +1,7 @@
 /**
- * 描述: 数据库基础配置
- * 作者: Jack Chen
- * 日期: 2020-06-12
+ * @Description: 数据库基础配置
+ * @author LongJiang Dong
+ * @date 2021/5/12
 */
 
 const mysql = {

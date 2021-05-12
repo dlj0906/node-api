@@ -1,9 +1,8 @@
 /**
- * 描述: 用户路由模块
- * 作者: Jack Chen
- * 日期: 2020-06-20
+ * @Description: 用户路由
+ * @author LongJiang Dong
+ * @date 2021/5/12
 */
-
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
