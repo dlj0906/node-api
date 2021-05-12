@@ -21,7 +21,8 @@ const { decode } = require('../utils/user-jwt');
 // 登录
 function login(req, res, next) {
   const err = validationResult(req);
-  // 如果验证错误，empty不为空
+    console.log(err);
+    // 如果验证错误，empty不为空
   if (!err.isEmpty()) {
     // 获取错误信息
     const [{ msg }] = err.errors;
