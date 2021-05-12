@@ -57,7 +57,7 @@ function login(req, res, next) {
           id: user[0].id,
           username: user[0].username,
           nickname: user[0].nickname,
-          avator: user[0].avator,
+            avatar: user[0].avatar,
           sex: user[0].sex,
           gmt_create: user[0].gmt_create,
           gmt_modify: user[0].gmt_modify
@@ -120,7 +120,7 @@ function register(req, res, next) {
                 id: user[0].id,
                 username: user[0].username,
                 nickname: user[0].nickname,
-                avator: user[0].avator,
+                  avatar: user[0].avatar,
                 sex: user[0].sex,
                 gmt_create: user[0].gmt_create,
                 gmt_modify: user[0].gmt_modify
