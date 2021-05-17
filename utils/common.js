@@ -3,10 +3,10 @@ export const resultData = (code, msg, data = null) => {
     code,
     msg,
     data,
-  };
-};
+  }
+}
 
 const page = (pageSize, pageNo) => {
-  pageSize = pageSize ? pageSize : 1;
-  pageNo = pageNo ? pageNo : 1;
-};
+  pageSize = pageSize ? pageSize : 1
+  pageNo = pageNo ? pageNo : 1
+}

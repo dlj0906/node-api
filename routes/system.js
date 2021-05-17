@@ -4,10 +4,11 @@
  * @date 2021/5/17
  */
 
-import express from "express";
-const router = express.Router();
-import services from "../services/systemService";
+import express from 'express'
 
-router.post("/getUserList", services.getUserList);
+const router = express.Router()
+import services from '../services/systemService'
 
-module.exports = router;
+router.post('/getUserList', services.getUserList)
+
+module.exports = router

@@ -4,30 +4,30 @@
  * @date 2021/5/17
  */
 
-import { querySql } from "../utils";
+import { querySql } from '../utils'
 import {
   CODE_ERROR,
   CODE_SUCCESS,
   NULL_MESSAGE,
   SUCCESS_MESSAGE,
-} from "../utils/constant";
-import { resultData } from "../utils/common";
-import boom from "boom";
+} from '../utils/constant'
+import { resultData } from '../utils/common'
+import boom from 'boom'
 
-const { validationResult } = require("express-validator");
+const { validationResult } = require('express-validator')
 
 // 查询所有用户
 function getUserList(req, res, next) {
-  const err = validationResult(req);
+  const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors;
-    next(boom.badRequest(msg));
+    const [{ msg }] = err.errors
+    next(boom.badRequest(msg))
   } else {
-    const { pageSize, pageNo } = req.body;
-    const query = `SELECT * FROM sys_user limit ${pageNo - 1},${pageSize}`;
+    const { pageSize, pageNo } = req.body
+    const query = `SELECT * FROM sys_user limit ${pageNo - 1},${pageSize}`
     querySql(query).then((result) => {
       if (!result || result.length === 0) {
-        res.json(resultData(CODE_ERROR, NULL_MESSAGE));
+        res.json(resultData(CODE_ERROR, NULL_MESSAGE))
       } else {
         res.json(
           resultData(CODE_SUCCESS, SUCCESS_MESSAGE, {
@@ -36,11 +36,11 @@ function getUserList(req, res, next) {
             pageNo: parseInt(pageNo),
             pageSize: parseInt(pageSize),
           })
-        );
+        )
       }
-    });
+    })
   }
 }
 module.exports = {
   getUserList,
-};
+}

@@ -4,39 +4,39 @@
  * @date 2021/5/12
  */
 
-const mysql = require("mysql");
-const config = require("../db/dbConfig");
+const mysql = require('mysql')
+const config = require('../db/dbConfig')
 
 // 连接mysql
 function connect() {
-  const { host, user, password, database } = config;
+  const { host, user, password, database } = config
   return mysql.createConnection({
     host,
     user,
     password,
     database,
-  });
+  })
 }
 
 // 新建查询连接
 function querySql(sql) {
-  const conn = connect();
+  const conn = connect()
   return new Promise((resolve, reject) => {
     try {
       conn.query(sql, (err, res) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(res);
+          resolve(res)
         }
-      });
+      })
     } catch (e) {
-      reject(e);
+      reject(e)
     } finally {
       // 释放连接
-      conn.end();
+      conn.end()
     }
-  });
+  })
 }
 
 // 查询一条语句
@@ -44,20 +44,20 @@ function queryOne(sql) {
   return new Promise((resolve, reject) => {
     querySql(sql)
       .then((res) => {
-        console.log("res===", res);
+        console.log('res===', res)
         if (res && res.length > 0) {
-          resolve(res[0]);
+          resolve(res[0])
         } else {
-          resolve(null);
+          resolve(null)
         }
       })
       .catch((err) => {
-        reject(err);
-      });
-  });
+        reject(err)
+      })
+  })
 }
 
 module.exports = {
   querySql,
   queryOne,
-};
+}
