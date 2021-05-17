@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "author": "",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "body-parser": "^1.19.0",
     "boom": "^7.3.0",
@@ -15,18 +15,25 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^7.0.3",
     "crypto": "^1.0.1",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.3.0"
   },
   "scripts": {
+    "dev": "cross-env NODE-ENV=development nodemon --harmony app.js --exec babel-node",
+    "check": "cross-env NODE-ENV=production nodemon --harmony app.js",
+    "test": "echo \"Error: no test specified\"&& exit 1",
+    "deploy": "pm2 deploy production",
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "pm2": "pm2 deploy ecosystem.json production"
   },
   "repository": {

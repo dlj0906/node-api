@@ -4,14 +4,19 @@
  * @date 2021/5/12
  */
 
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const boom = require('boom');
-const { body, validationResult } = require('express-validator');
-const md5 = require('../utils/md5');
-const { querySql, queryOne } = require('../utils/index');
-const { CODE_ERROR, CODE_SUCCESS, PRIVATE_KEY, JWT_EXPIRED } = require('../utils/constant');
-const { decode } = require('../utils/user-jwt');
+const boom = require("boom");
+const { body, validationResult } = require("express-validator");
+const md5 = require("../utils/md5");
+const { querySql, queryOne } = require("../utils/index");
+const {
+  CODE_ERROR,
+  CODE_SUCCESS,
+  PRIVATE_KEY,
+  JWT_EXPIRED,
+} = require("../utils/constant");
+const { decode } = require("../utils/user-jwt");
 
 // 登录
 function login(req, res, next) {
@@ -34,7 +39,7 @@ function login(req, res, next) {
       if (!user || user.length === 0) {
         res.json({
           code: CODE_ERROR,
-          msg: '用户名或密码错误',
+          msg: "用户名或密码错误",
           result: null,
         });
       } else {
@@ -60,7 +65,7 @@ function login(req, res, next) {
 
         res.json({
           code: CODE_SUCCESS,
-          msg: '登录成功',
+          msg: "登录成功",
           result: {
             token,
             userInfo,
@@ -84,7 +89,7 @@ function register(req, res, next) {
       if (result) {
         res.json({
           code: CODE_ERROR,
-          msg: '用户已存在',
+          msg: "用户已存在",
           result: null,
         });
       } else {
@@ -95,13 +100,15 @@ function register(req, res, next) {
           if (!result || result.length === 0) {
             res.json({
               code: CODE_ERROR,
-              msg: '注册失败',
+              msg: "注册失败",
               result: null,
             });
           } else {
             const queryUser = `select * from sys_user where username='${username}' and password='${password}'`;
             querySql(queryUser).then((user) => {
-              const token = jwt.sign({ username }, PRIVATE_KEY, { expiresIn: JWT_EXPIRED });
+              const token = jwt.sign({ username }, PRIVATE_KEY, {
+                expiresIn: JWT_EXPIRED,
+              });
 
               const userData = {
                 id: user[0].id,
@@ -115,7 +122,7 @@ function register(req, res, next) {
 
               res.json({
                 code: CODE_SUCCESS,
-                msg: '注册成功',
+                msg: "注册成功",
                 result: {
                   token,
                   userData,
@@ -139,7 +146,7 @@ function resetPwd(req, res, next) {
     let { username, oldPassword, newPassword } = req.body;
     oldPassword = md5(oldPassword);
     validateUser(username, oldPassword).then((result) => {
-      console.log('校验用户名和密码===', result);
+      console.log("校验用户名和密码===", result);
       if (result) {
         if (newPassword) {
           newPassword = md5(newPassword);
@@ -149,13 +156,13 @@ function resetPwd(req, res, next) {
             if (!user || user.length === 0) {
               res.json({
                 code: CODE_ERROR,
-                msg: '重置密码失败',
+                msg: "重置密码失败",
                 result: null,
               });
             } else {
               res.json({
                 code: CODE_SUCCESS,
-                msg: '重置密码成功',
+                msg: "重置密码成功",
                 result: null,
               });
             }
@@ -163,14 +170,14 @@ function resetPwd(req, res, next) {
         } else {
           res.json({
             code: CODE_ERROR,
-            msg: '新密码不能为空',
+            msg: "新密码不能为空",
             result: null,
           });
         }
       } else {
         res.json({
           code: CODE_ERROR,
-          msg: '用户名或旧密码错误',
+          msg: "用户名或旧密码错误",
           result: null,
         });
       }
@@ -190,33 +197,8 @@ function findUser(username) {
   return queryOne(query);
 }
 
-// 查询所有用户
-findAllUser = (req, res, next) => {
-  const err = validationResult(req);
-  if (!err.isEmpty()) {
-    const [{ msg }] = err.errors;
-    next(boom.badRequest(msg));
-  } else {
-    let { pageSize, pageNo } = req.query;
-    pageNo = pageNo || 1;
-    pageSize = pageSize || 10;
-    const query = `SELECT * FROM sys_user limit ${pageNo - 1},${pageSize}`;
-    querySql(query).then((result) => {
-      console.log(result);
-      if (result && result.length) {
-        res.json({
-          code: CODE_SUCCESS,
-          msg: '操作成功',
-          result,
-        });
-      }
-    });
-  }
-};
-
 module.exports = {
   login,
   register,
   resetPwd,
-  findAllUser,
 };
