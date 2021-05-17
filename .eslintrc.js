@@ -9,5 +9,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  rules: {},
-};
+  rules: {
+    'no-unused-vars': 'warn', //把该条提示信息转换成警告信息
+  },
+}
