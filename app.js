@@ -4,13 +4,13 @@
  * @date 2021/5/12
  */
 
-import bodyParser from 'body-parser'
+const bodyParser = require('body-parser')
 // 引入body-parser模块
-import express from 'express'
+const express = require('express')
 // 引入express模块
-import cors from 'cors'
+const cors = require('cors')
 // 引入cors模块
-import routes from './routes/index' //导入自定义路由文件，创建模块化路由
+const routes = require('./routes/index') //导入自定义路由文件，创建模块化路由
 const app = express()
 
 app.use(bodyParser.json()) // 解析json数据格式
