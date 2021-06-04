@@ -20,8 +20,8 @@ const { validationResult } = require('express-validator')
 function getUserList(req, res, next) {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     const { pageSize, pageNo } = req.body
     const query = `SELECT * FROM sys_user limit ${pageNo - 1},${pageSize}`

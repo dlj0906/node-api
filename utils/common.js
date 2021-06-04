@@ -1,7 +1,7 @@
-const resultData = (code, msg, result = null) => {
+const resultData = (code, message, result = null) => {
   return {
     code,
-    msg,
+    message,
     result,
   }
 }

@@ -22,9 +22,9 @@ function queryTaskList(req, res, next) {
   // 如果验证错误，empty不为空
   if (!err.isEmpty()) {
     // 获取错误信息
-    const [{ msg }] = err.errors
+    const [{ message }] = err.errors
     // 抛出错误，交给我们自定义的统一异常处理程序进行错误返回
-    next(boom.badRequest(msg))
+    next(boom.badRequest(message))
   } else {
     let { pageSize, pageNo, status } = req.query
     // 默认值
@@ -38,7 +38,7 @@ function queryTaskList(req, res, next) {
       if (!result || result.length === 0) {
         res.json({
           code: CODE_ERROR,
-          msg: '暂无数据',
+          message: '暂无数据',
           result: null,
         })
       } else {
@@ -54,7 +54,7 @@ function queryTaskList(req, res, next) {
             if (!result_1 || result_1.length === 0) {
               res.json({
                 code: CODE_SUCCESS,
-                msg: '暂无数据',
+                message: '暂无数据',
                 result: null,
               })
             } else {
@@ -64,13 +64,13 @@ function queryTaskList(req, res, next) {
                 if (!result_2 || result_2.length === 0) {
                   res.json({
                     code: CODE_SUCCESS,
-                    msg: '暂无数据',
+                    message: '暂无数据',
                     result: null,
                   })
                 } else {
                   res.json({
                     code: CODE_SUCCESS,
-                    msg: '查询数据成功',
+                    message: '查询数据成功',
                     result: {
                       rows: result_2,
                       total: result_1.length,
@@ -90,13 +90,13 @@ function queryTaskList(req, res, next) {
             if (!result_3 || result_3.length === 0) {
               res.json({
                 code: CODE_SUCCESS,
-                msg: '暂无数据',
+                message: '暂无数据',
                 result: null,
               })
             } else {
               res.json({
                 code: CODE_SUCCESS,
-                msg: '查询数据成功',
+                message: '查询数据成功',
                 result: {
                   rows: result_3,
                   total: total,
@@ -116,15 +116,15 @@ function queryTaskList(req, res, next) {
 function addTask(req, res, next) {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     let { title, content, gmt_expire } = req.body
     findTask(title, 1).then((task) => {
       if (task) {
         res.json({
           code: CODE_ERROR,
-          msg: '任务名称不能重复',
+          message: '任务名称不能重复',
           result: null,
         })
       } else {
@@ -134,13 +134,13 @@ function addTask(req, res, next) {
           if (!result || result.length === 0) {
             res.json({
               code: CODE_ERROR,
-              msg: '添加数据失败',
+              message: '添加数据失败',
               result: null,
             })
           } else {
             res.json({
               code: CODE_SUCCESS,
-              msg: '添加数据成功',
+              message: '添加数据成功',
               result: null,
             })
           }
@@ -154,8 +154,8 @@ function addTask(req, res, next) {
 function editTask(req, res, next) {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     let { id, title, content, gmt_expire } = req.body
     findTask(id, 2).then((task) => {
@@ -164,7 +164,7 @@ function editTask(req, res, next) {
           if (result) {
             res.json({
               code: CODE_ERROR,
-              msg: '任务名称不能重复',
+              message: '任务名称不能重复',
               result: null,
             })
           } else {
@@ -174,13 +174,13 @@ function editTask(req, res, next) {
               if (!result || result.length === 0) {
                 res.json({
                   code: CODE_ERROR,
-                  msg: '更新数据失败',
+                  message: '更新数据失败',
                   result: null,
                 })
               } else {
                 res.json({
                   code: CODE_SUCCESS,
-                  msg: '更新数据成功',
+                  message: '更新数据成功',
                   result: null,
                 })
               }
@@ -190,7 +190,7 @@ function editTask(req, res, next) {
       } else {
         res.json({
           code: CODE_ERROR,
-          msg: '参数错误或数据不存在',
+          message: '参数错误或数据不存在',
           result: null,
         })
       }
@@ -202,8 +202,8 @@ function editTask(req, res, next) {
 function updateTaskStatus(req, res, next) {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     let { id, status } = req.body
     findTask(id, 2).then((task) => {
@@ -214,13 +214,13 @@ function updateTaskStatus(req, res, next) {
           if (!result || result.length === 0) {
             res.json({
               code: CODE_ERROR,
-              msg: '操作数据失败',
+              message: '操作数据失败',
               result: null,
             })
           } else {
             res.json({
               code: CODE_SUCCESS,
-              msg: '操作数据成功',
+              message: '操作数据成功',
               result: null,
             })
           }
@@ -228,7 +228,7 @@ function updateTaskStatus(req, res, next) {
       } else {
         res.json({
           code: CODE_ERROR,
-          msg: '参数错误或数据不存在',
+          message: '参数错误或数据不存在',
           result: null,
         })
       }
@@ -240,8 +240,8 @@ function updateTaskStatus(req, res, next) {
 function updateMark(req, res, next) {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     let { id, is_major } = req.body
     findTask(id, 2).then((task) => {
@@ -252,13 +252,13 @@ function updateMark(req, res, next) {
           if (!result || result.length === 0) {
             res.json({
               code: CODE_ERROR,
-              msg: '操作数据失败',
+              message: '操作数据失败',
               result: null,
             })
           } else {
             res.json({
               code: CODE_SUCCESS,
-              msg: '操作数据成功',
+              message: '操作数据成功',
               result: null,
             })
           }
@@ -266,7 +266,7 @@ function updateMark(req, res, next) {
       } else {
         res.json({
           code: CODE_ERROR,
-          msg: '参数错误或数据不存在',
+          message: '参数错误或数据不存在',
           result: null,
         })
       }
@@ -278,8 +278,8 @@ function updateMark(req, res, next) {
 function deleteTask(req, res, next) {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     let { id, status } = req.body
     findTask(id, 2).then((task) => {
@@ -291,13 +291,13 @@ function deleteTask(req, res, next) {
           if (!result || result.length === 0) {
             res.json({
               code: CODE_ERROR,
-              msg: '删除数据失败',
+              message: '删除数据失败',
               result: null,
             })
           } else {
             res.json({
               code: CODE_SUCCESS,
-              msg: '删除数据成功',
+              message: '删除数据成功',
               result: null,
             })
           }
@@ -305,7 +305,7 @@ function deleteTask(req, res, next) {
       } else {
         res.json({
           code: CODE_ERROR,
-          msg: '数据不存在',
+          message: '数据不存在',
           result: null,
         })
       }

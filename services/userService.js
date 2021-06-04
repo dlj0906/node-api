@@ -25,9 +25,9 @@ function login(req, res, next) {
   // 如果验证错误，empty不为空
   if (!err.isEmpty()) {
     // 获取错误信息
-    const [{ msg }] = err.errors
+    const [{ message }] = err.errors
     // 抛出错误，交给我们自定义的统一异常处理程序进行错误返回
-    next(boom.badRequest(msg))
+    next(boom.badRequest(message))
   } else {
     let { username, password } = req.body
     // md5加密
@@ -39,7 +39,7 @@ function login(req, res, next) {
       if (!user || user.length === 0) {
         res.json({
           code: CODE_ERROR,
-          msg: '用户名或密码错误',
+          message: '用户名或密码错误',
           result: null,
         })
       } else {
@@ -65,7 +65,7 @@ function login(req, res, next) {
 
         res.json({
           code: CODE_SUCCESS,
-          msg: '登录成功',
+          message: '登录成功',
           result: {
             token,
             userInfo,
@@ -80,8 +80,8 @@ function login(req, res, next) {
 function register(req, res, next) {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     let { username, password } = req.body
     findUser(username).then((result) => {
@@ -89,7 +89,7 @@ function register(req, res, next) {
       if (result) {
         res.json({
           code: CODE_ERROR,
-          msg: '用户已存在',
+          message: '用户已存在',
           result: null,
         })
       } else {
@@ -100,7 +100,7 @@ function register(req, res, next) {
           if (!result || result.length === 0) {
             res.json({
               code: CODE_ERROR,
-              msg: '注册失败',
+              message: '注册失败',
               result: null,
             })
           } else {
@@ -122,7 +122,7 @@ function register(req, res, next) {
 
               res.json({
                 code: CODE_SUCCESS,
-                msg: '注册成功',
+                message: '注册成功',
                 result: {
                   token,
                   userData,
@@ -140,8 +140,8 @@ function register(req, res, next) {
 function resetPwd(req, res, next) {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     let { username, oldPassword, newPassword } = req.body
     oldPassword = md5(oldPassword)
@@ -156,13 +156,13 @@ function resetPwd(req, res, next) {
             if (!user || user.length === 0) {
               res.json({
                 code: CODE_ERROR,
-                msg: '重置密码失败',
+                message: '重置密码失败',
                 result: null,
               })
             } else {
               res.json({
                 code: CODE_SUCCESS,
-                msg: '重置密码成功',
+                message: '重置密码成功',
                 result: null,
               })
             }
@@ -170,14 +170,14 @@ function resetPwd(req, res, next) {
         } else {
           res.json({
             code: CODE_ERROR,
-            msg: '新密码不能为空',
+            message: '新密码不能为空',
             result: null,
           })
         }
       } else {
         res.json({
           code: CODE_ERROR,
-          msg: '用户名或旧密码错误',
+          message: '用户名或旧密码错误',
           result: null,
         })
       }
@@ -201,8 +201,8 @@ function findUser(username) {
 findAllUser = (req, res, next) => {
   const err = validationResult(req)
   if (!err.isEmpty()) {
-    const [{ msg }] = err.errors
-    next(boom.badRequest(msg))
+    const [{ message }] = err.errors
+    next(boom.badRequest(message))
   } else {
     let { pageSize, pageNo } = req.query
     pageNo = pageNo || 1
@@ -213,7 +213,7 @@ findAllUser = (req, res, next) => {
       if (result && result.length) {
         res.json({
           code: CODE_SUCCESS,
-          msg: '操作成功',
+          message: '操作成功',
           result,
         })
       }

@@ -27,7 +27,7 @@ router.use((err, req, res, next) => {
     // 抛出401异常
     res.status(status).json({
       code: status,
-      msg: 'token失效，请重新登录',
+      message: 'token失效，请重新登录',
       data: null,
     })
   } else {
@@ -38,7 +38,7 @@ router.use((err, req, res, next) => {
       (output && output.payload && output.payload.error) || err.message
     res.status(errCode).json({
       code: errCode,
-      msg: errMsg,
+      message: errMsg,
     })
   }
 })
